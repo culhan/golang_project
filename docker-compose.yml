@@ -1,0 +1,19 @@
+version: "2"
+
+services:
+
+  app:
+    image: culhan/golang-try
+    ports:
+        - "8080:8080"
+    volumes:
+      - ./app:/go/src/github.com/user/myProject/app
+    working_dir: /go/src/github.com/user/myProject/app
+    command: bash -c "cd /go/src/github.com/user/myProject/app && go get github.com/dgrijalva/jwt-go && go get -u github.com/go-redis/redis && go get github.com/pilu/fresh && fresh"
+    links:
+      - redis
+    environment:
+      REDIS_URL: redis:6379
+
+  redis:
+    image: redis:alpine
